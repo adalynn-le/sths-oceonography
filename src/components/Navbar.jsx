@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
    return (
@@ -10,8 +11,8 @@ export default function Navbar() {
           STHS Oceanography
         </div>
         <div className="flex flex-row justify-end gap-5">
-          <a href="#home"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">home</span></a>
-          <a href="#aboutUs"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">book</span></a>
+          <Link to="/" title="Home"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">home</span></Link>
+          <Link to="/curriculum" title="Curriculum"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">book</span></Link>
           <a href="#whatDoWeDo"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">network_node</span></a>
         </div>
       </nav>
