@@ -1,5 +1,6 @@
 import React from 'react';
-import Bubbles from './Bubbles';
+import Bubbles from './components/Bubbles';
+import Navbar from './components/Navbar';
 export default function App() {
   const leaders = [
     { name: "Seon R.", position: "President", img: "seon.jpg" },
@@ -14,22 +15,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white bg-[radial-gradient(#e8e6ff_1.5px,transparent_1.5px)] [background-size:30px_30px] font-['Marmelad',sans-serif] text-slate-800 m-0 p-0">
-      
-      {/* Navbar */}
-      <nav className="flex flex-row justify-between items-center bg-white h-[35px] border-b border-[#e8e6ff] p-4 sticky top-0 z-50">
-        <div className="flex flex-row items-center">
-          <span className="material-symbols-rounded text-[20px] text-[#9faeff] cursor-pointer">mail</span>
-        </div>
-        <div className="absolute left-1/2 -translate-x-1/2 text-orange-400 font-bold text-lg">
-          STHS Oceanography
-        </div>
-        <div className="flex flex-row justify-end gap-5">
-          <a href="#home"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">home</span></a>
-          <a href="#aboutUs"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">book</span></a>
-          <a href="#whatDoWeDo"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">network_node</span></a>
-        </div>
-      </nav>
-
+      <Navbar />
       <main>
         {/* Title Page */}
         <section id="home" className="flex flex-col justify-between items-center h-[calc(100vh-35px)] relative overflow-hidden pt-10">
