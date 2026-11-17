@@ -3,14 +3,14 @@ import Bubbles from './components/Bubbles';
 import Navbar from './components/Navbar';
 export default function App() {
   const leaders = [
-    { name: "Seon R.", position: "President", img: "seon.jpg" },
-    { name: "Riya K.", position: "Vice President", img: "seon.jpg" },
-    { name: "Nayan C.", position: "Secretary", img: "seon.jpg" },
-    { name: "Adalynn L.", position: "Treasurer", img: "seon.jpg" },
-    { name: "Jason A.", position: "Event Coordinator", img: "seon.jpg" },
-    { name: "Faris A.", position: "Event Coordinator", img: "seon.jpg" },
-    { name: "Ryan C.", position: "Publicist", img: "seon.jpg" },
-    { name: "Regan P.", position: "Publicist", img: "seon.jpg" },
+    { name: "Seon R.", position: "President", img: "/seon.jpg" },
+    { name: "Riya K.", position: "Vice President", img: "/riya.jpg" },
+    { name: "Nayan C.", position: "Secretary", img: "/nayan.jpg" },
+    { name: "Adalynn L.", position: "Treasurer", img: "/adalynn.jpeg" },
+    { name: "Jason A.", position: "Event Coordinator", img: "/jason.jpg" },
+    { name: "Faris A.", position: "Event Coordinator", img: "/faris.jpg" },
+    { name: "Ryan C.", position: "Publicist", img: "/ryan.jpg" },
+    { name: "Regan P.", position: "Publicist", img: "/regan.jpg" },
   ];
 
   return (
