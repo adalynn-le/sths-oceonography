@@ -31,3 +31,20 @@
   animation-delay: var(--delay, 0s);
 
 }
+:root {
+  --blue: #9faeff;
+  --border: #efeff3;
+  --text: #767d8f;
+  --h2size: 50px;
+  --parSize: 20px;
+}
+
+[data-theme="dark"] {
+  --bg-page: #0f172a;
+  --text-main: #f8fafc;
+}
+
+@theme inline {
+  --color-page: var(--bg-page);
+  --color-main: var(--text-main);
+}
