@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import Navbar from  '../components/Navbar';
 import Bubbles from '../components/Bubbles';
 import Tag from '../components/Tag'
+import InteractiveTag from '../components/InteractiveTag'
 export default function Curriculum() {
    const [viewMode, setViewMode] = useState('search')
    const [searchQuery, setSearchQuery] = useState('')
+   const [selectedTags, setSelectedTags] = useState([])
 const units = [
    {
       index: 1,
@@ -276,9 +278,24 @@ const lessons = [
       resources: []
    }
 ];
-   const filteredLessons = lessons.filter(lesson => 
-      lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.unit.toLowerCase().includes(searchQuery.toLowerCase())
-   )
+const handleTagClick = (unitTitle) => {
+      if (selectedTags.includes(unitTitle)) {
+         setSelectedTags(selectedTags.filter(t => t !== unitTitle));
+      } else {
+         setSelectedTags([...selectedTags, unitTitle]);
+      }
+   };
+const filteredLessons = lessons.filter(lesson => {
+      const matchesSearch = 
+         lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+         lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) || 
+         lesson.unit.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesTags = 
+         selectedTags.length === 0 || selectedTags.includes(lesson.unit);
+
+      return matchesSearch && matchesTags;
+   })
    const [activeLessonIndex, setActiveLessonIndex] = useState(null)
    return (
     <div className="min-h-screen bg-white bg-[radial-gradient(#e8e6ff_1.5px,transparent_1.5px)] [background-size:30px_30px] font-['Marmelad',sans-serif] text-slate-800 m-0 p-0">      
@@ -315,6 +332,21 @@ const lessons = [
                </div>
                <p style={{ color: 'var(--text)', fontSize: 'var(--parSize)' }}>Search through our lessons to find the perfect activity for your organization!</p>
                <input type="text" placeholder="Search lessons, keywords, tags, and more..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-2 border-(--border) rounded-full h-[40px] w-[1000px] px-[20px] py-[5px] bg-white hover:border-(--blue) focus: outline-(--bliue) focus:ring-2 focus:ring-(--blue)/70 focus: text-(--blue)" style={{ fontSize: 'var(--parSize)' }}/>
+<div className="flex flex-row gap-2 flex-wrap">
+   {units.map((unit, index) => {
+      const isSelected = selectedTags.includes(unit.title);
+      return (
+         <InteractiveTag 
+            className="mx-10" 
+            key={index} 
+            selected={isSelected} 
+            onClick={() => handleTagClick(unit.title)}
+         >
+            {unit.title}
+         </InteractiveTag>
+      );
+   })}
+</div>
                <div className="flex flex-row flex-wrap gap-5">
                {filteredLessons.map((lesson, index) => {
                   return(
