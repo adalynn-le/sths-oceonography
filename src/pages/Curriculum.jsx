@@ -7,6 +7,7 @@ export default function Curriculum() {
    const [viewMode, setViewMode] = useState('search')
    const [searchQuery, setSearchQuery] = useState('')
    const [selectedTags, setSelectedTags] = useState([])
+   const [unitTree, setUnitTree] = useState("Introduction to The Ocean")
 const units = [
    {
       index: 1,
@@ -30,7 +31,7 @@ const units = [
    },
    {
       index: 5,
-      title: "Introduction to Life in The Ocean",
+      title: "Life in The Ocean",
       description: "Core biological principles including cladistics, evolution, and marine ecology."
    },
    {
@@ -67,28 +68,28 @@ const lessons = [
    {
       index: 201,
       title: "Ekman Spiral",
-      unit: "Currents",
+      unit: "Currents and Waves",
       description: "Understand how wind-driven water currents change direction with depth.",
       resources: []
    },
    {
       index: 202,
       title: "The Anatomy of a Wave",
-      unit: "Currents",
+      unit: "Currents and Waves",
       description: "Explore wave structures, crests, troughs, and wave mechanics.",
       resources: []
    },
    {
       index: 203,
       title: "The Shore",
-      unit: "Currents",
+      unit: "Currents and Waves",
       description: "Examine coastal landforms and the energy dynamics impacting shorelines.",
       resources: []
    },
    {
       index: 204,
       title: "Upwelling and Downwelling",
-      unit: "Currents",
+      unit: "Currents and Waves",
       description: "Learn how vertical water movements cycle nutrients and regulate ecosystems.",
       resources: []
    },
@@ -97,14 +98,14 @@ const lessons = [
    {
       index: 301,
       title: "Coriolis Effect",
-      unit: "Climate",
+      unit: "Climate and the Ocean",
       description: "Analyze how Earth's rotation deflects winds and ocean currents globally.",
       resources: []
    },
    {
       index: 302,
       title: "El Niño and La Niña",
-      unit: "Climate",
+      unit: "Climate and the Ocean",
       description: "Study cyclical climate patterns in the Pacific Ocean and their global impacts.",
       resources: []
    },
@@ -174,25 +175,25 @@ const lessons = [
       resources: []
    },
 
-   // Unit 5: Introduction to Life in The Ocean
+   // Unit 5: Life in The Ocean
    {
       index: 501,
       title: "Cladistics",
-      unit: "Introduction to Life in The Ocean",
+      unit: "Life in The Ocean",
       description: "Learn how to classify marine organisms based on evolutionary ancestry.",
       resources: []
    },
    {
       index: 502,
       title: "Evolution in Marine Environments",
-      unit: "Introduction to Life in The Ocean",
+      unit: "Life in The Ocean",
       description: "Explore evolutionary adaptations specific to life in water.",
       resources: []
    },
    {
       index: 503,
       title: "Marine Ecology",
-      unit: "Introduction to Life in The Ocean",
+      unit: "Life in The Ocean",
       description: "Analyze energy flow, food webs, and nutrient cycles in the ocean.",
       resources: []
    },
@@ -296,6 +297,11 @@ const filteredLessons = lessons.filter(lesson => {
 
       return matchesSearch && matchesTags;
    })
+   const treeLessons = lessons.filter(lesson => {
+      const matchesSearch = 
+      lesson.unit === unitTree
+      return matchesSearch
+   })
    const [activeLessonIndex, setActiveLessonIndex] = useState(null)
    return (
     <div className="min-h-screen bg-white bg-[radial-gradient(#e8e6ff_1.5px,transparent_1.5px)] [background-size:30px_30px] font-['Marmelad',sans-serif] text-slate-800 m-0 p-0">      
@@ -332,21 +338,14 @@ const filteredLessons = lessons.filter(lesson => {
                </div>
                <p style={{ color: 'var(--text)', fontSize: 'var(--parSize)' }}>Search through our lessons to find the perfect activity for your organization!</p>
                <input type="text" placeholder="Search lessons, keywords, tags, and more..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-2 border-(--border) rounded-full h-[40px] w-[1000px] px-[20px] py-[5px] bg-white hover:border-(--blue) focus: outline-(--bliue) focus:ring-2 focus:ring-(--blue)/70 focus: text-(--blue)" style={{ fontSize: 'var(--parSize)' }}/>
-<div className="flex flex-row gap-2 flex-wrap">
-   {units.map((unit, index) => {
-      const isSelected = selectedTags.includes(unit.title);
-      return (
-         <InteractiveTag 
-            className="mx-10" 
-            key={index} 
-            selected={isSelected} 
-            onClick={() => handleTagClick(unit.title)}
-         >
-            {unit.title}
-         </InteractiveTag>
-      );
-   })}
-</div>
+               <div className="flex flex-row gap-2 flex-wrap">
+                  {units.map((unit, index) => {
+                    const isSelected = selectedTags.includes(unit.title) 
+                     return (
+                        <InteractiveTag className="mx-10" key={index} selected={isSelected} onClick={() => handleTagClick(unit.title)}>{unit.title}</InteractiveTag>
+                     )
+                  })}
+               </div>
                <div className="flex flex-row flex-wrap gap-5">
                {filteredLessons.map((lesson, index) => {
                   return(
@@ -364,10 +363,39 @@ const filteredLessons = lessons.filter(lesson => {
 })}
 </div>
             </div>
-         ) : (
+) : (
             <div>
+               <div className="flex gap-2 w-min bg-(--border) rounded-full h-min items-center px-2 py-2">
+                  {units.map((unit, index) => {
+                     return (
+                        <button key={index} onClick={() => setUnitTree(unit.title)} className={`font-bold h-[35px] px-5 w-min text-nowrap rounded-full text-[13px] text-center items-center justify-center py-[7px] ${unitTree === unit.title ? 'bg-[orange] text-white' : 'text-(--text)'}`}>
+                           {unit.title}
+                        </button>
+                     );
+                  })}
+               </div>
+               <div className="relative border-l-2 border-[#9faeff] ml-6 md:ml-12 pl-6 md:pl-8 space-y-8 my-6">
+   {treeLessons.map((lesson, index) => {
+      return (
+         <div key={index} className="relative group">
+            <div className="absolute -left-[33px] md:-left-[41px] top-4 w-4 h-4 rounded-full bg-white border-4 border-[#9faeff]"></div>
+            <div  onClick={() => setActiveLessonIndex(index)} className="border-2 border-solid rounded-xl p-6 border-(--border) bg-white  transition-all">
+               <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 block">
+                  Lesson {lesson.index || index + 1}
+               </span>
+               <h3 className="text-orange-400 font-bold text-xl mb-2">
+                  {lesson.title}
+               </h3>
+               <p className="text-(--text) text-sm leading-relaxed">
+                  {lesson.description}
+               </p>
             </div>
-         )}
+         </div>
+      );
+   })}
+</div> 
+            </div>
+         )} 
          </div>
 {activeLessonIndex !== null && (
    <div className="fixed inset-0 bg-black/20 backdrop-blur-[3px] z-50 flex items-center justify-center p-4">
