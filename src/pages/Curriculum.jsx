@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from  '../components/Navbar';
 import Bubbles from '../components/Bubbles';
+import Tag from '../components/Tag'
 export default function Curriculum() {
    const [viewMode, setViewMode] = useState('search')
    const [searchQuery, setSearchQuery] = useState('')
@@ -49,7 +50,8 @@ const lessons = [
       title: "Chemistry of The Ocean",
       unit: "Introduction to The Ocean",
       description: "Examine the chemical composition of seawater, salinity, and dissolved gases.",
-      resources: []
+      resources: [],
+      activity: []
    },
    {
       index: 102,
@@ -275,8 +277,9 @@ const lessons = [
    }
 ];
    const filteredLessons = lessons.filter(lesson => 
-      lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+      lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.description.toLowerCase().includes(searchQuery.toLowerCase()) || lesson.unit.toLowerCase().includes(searchQuery.toLowerCase())
    )
+   const [activeLessonIndex, setActiveLessonIndex] = useState(null)
    return (
     <div className="min-h-screen bg-white bg-[radial-gradient(#e8e6ff_1.5px,transparent_1.5px)] [background-size:30px_30px] font-['Marmelad',sans-serif] text-slate-800 m-0 p-0">      
     <Navbar />
@@ -306,16 +309,83 @@ const lessons = [
          </div>
          { viewMode === 'search' ? (
             <div className="flex flex-col gap-[10px] py-[20px] px-[20px]">
-               <h2 className="font-bold" style={{ color: 'var(--blue)', fontSize: 'var(--h2size)' }}>Search Our Lessons</h2>
+               <h2 className="font-bold" style={{ color: 'var(--blue)', fontSize: 'var(--h2size)' }}>Search Our Lessons</h2>               
+               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+               </div>
                <p style={{ color: 'var(--text)', fontSize: 'var(--parSize)' }}>Search through our lessons to find the perfect activity for your organization!</p>
-               <input type="text" placeholder="Search lessons, keywords, tags, and more..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-2 border-(--border) rounded-full h-[40px] w-[1000px] px-[20px] py-[5px] bg-white hover:border-(--blue) focus: outline-(--blue) focus:ring-2 focus:ring-(--blue)/70 focus: text-(--blue)" style={{ fontSize: 'var(--parSize)' }}/>
+               <input type="text" placeholder="Search lessons, keywords, tags, and more..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-2 border-(--border) rounded-full h-[40px] w-[1000px] px-[20px] py-[5px] bg-white hover:border-(--blue) focus: outline-(--bliue) focus:ring-2 focus:ring-(--blue)/70 focus: text-(--blue)" style={{ fontSize: 'var(--parSize)' }}/>
+               <div className="flex flex-row flex-wrap gap-5">
+               {filteredLessons.map((lesson, index) => {
+                  return(
+                     <div key={index} onClick={() => setActiveLessonIndex(index)}className = "grow-0 flex-7/24 border-2 border-solid rounded-lg p-4 border-(--border) bg-white py-10">
+                        <h3 className = "text-orange-400 font-bold text-xl mb-1">{lesson.title}</h3>
+                        <hr className="mb-2 color-(--border) bg-(--border) border-(--border)"></hr>
+                        <span className="flex flex-row gap-5 flex-wrap">
+                           <Tag>{lesson.unit}</Tag>
+                        </span>
+
+                        <h4 className= "text-(--text)">{lesson.description}</h4>
+                     </div>
+                  )
+                  
+})}
+</div>
             </div>
          ) : (
             <div>
             </div>
          )}
          </div>
+{activeLessonIndex !== null && (
+   <div className="fixed inset-0 bg-black/20 backdrop-blur-[3px] z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full p-8 relative shadow-2xl border border-slate-200 flex flex-col justify-between">
+         
+         {/* Close Button */}
+         <button 
+            onClick={() => setActiveLessonIndex(null)}
+            className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-bold text-xl"
+         >
+            ✕
+         </button>
 
+         {/* Lesson Content */}
+         <div className="my-6">
+            <div className="mb-4">
+               <Tag>{filteredLessons[activeLessonIndex].unit}</Tag>
+            </div>
+            <h2 className="text-orange-400 font-bold text-3xl mb-4">
+               {filteredLessons[activeLessonIndex].title}
+            </h2>
+            <p className="text-slate-600 text-lg leading-relaxed mb-6">
+               {filteredLessons[activeLessonIndex].description}
+            </p>
+         </div>
+
+         {/* Carousel Navigation Arrows & Counter */}
+         <div className="flex justify-between items-center border-t border-slate-100 pt-4">
+            <button 
+               onClick={() => setActiveLessonIndex(prev => (prev > 0 ? prev - 1 : filteredLessons.length - 1))}
+               className="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-bold hover:bg-[#9faeff] hover:text-white transition-colors"
+            >
+               &larr; Previous
+            </button>
+
+            <span className="text-slate-400 font-medium text-sm">
+               {activeLessonIndex + 1} of {filteredLessons.length}
+            </span>
+
+            <button 
+               onClick={() => setActiveLessonIndex(prev => (prev < filteredLessons.length - 1 ? prev + 1 : 0))}
+               className="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-bold hover:bg-[#9faeff] hover:text-white transition-colors"
+            >
+               Next &rarr;
+            </button>
+         </div>
+
+      </div>
+   </div>
+)}
     </main>
     </div>
 
