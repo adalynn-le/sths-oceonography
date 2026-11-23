@@ -13,7 +13,7 @@ export default function Navbar() {
         <div className="flex flex-row justify-end gap-5">
           <Link to="/" title="Home"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">home</span></Link>
           <Link to="/curriculum" title="Curriculum"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">book</span></Link>
-          <a href="#whatDoWeDo"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">network_node</span></a>
+          <a href="/startChapter"><span className="material-symbols-rounded text-[20px] text-[#9faeff]">network_node</span></a>
         </div>
       </nav>
    )
